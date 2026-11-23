@@ -1,0 +1,86 @@
+/* FOXFIRE BREW — midnight apothecary palette: plum ink, amber gold,
+   ember red, frost teal, bloom green, spark violet. */
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: #17101f radial-gradient(1200px 600px at 50% -10%, #2c1840, #17101f);
+  color: #f3ead8; font-family: Georgia, 'Times New Roman', serif;
+}
+#app { max-width: 1180px; margin: 0 auto; padding: 14px 18px 28px; }
+header { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+h1 { margin: 0; font-size: 34px; letter-spacing: 4px; color: #ffcf6e;
+  text-shadow: 0 0 18px rgba(255, 180, 60, .45); }
+.subtitle { margin: 2px 0 0; font-style: italic; color: #c9b8e8; }
+.scoreboard { display: flex; align-items: center; gap: 14px; }
+.score { display: flex; flex-direction: column; align-items: center; background: #241733;
+  border: 1px solid #4a3566; border-radius: 10px; padding: 6px 16px; min-width: 96px; }
+.score-name { font-size: 12px; letter-spacing: 2px; color: #c9b8e8; }
+.score-num { font-size: 34px; font-weight: bold; line-height: 1; }
+.score.you .score-num { color: #ffcf6e; }
+.score.foe .score-num { color: #c78bff; }
+.score-mid { display: flex; flex-direction: column; align-items: center; font-size: 13px; color: #c9b8e8; gap: 2px; }
+.banner { min-height: 34px; text-align: center; font-size: 22px; font-weight: bold; letter-spacing: 2px;
+  opacity: 0; transition: opacity .25s; margin: 6px 0 2px; }
+.banner.show { opacity: 1; }
+.banner.trio, .banner.prism, .banner.quad, .banner.win { color: #ffcf6e; text-shadow: 0 0 16px rgba(255, 180, 60, .6); }
+.banner.pair { color: #bfe3ff; }
+.banner.fizzle { color: #ff6b4a; }
+.banner.lose { color: #c78bff; }
+
+.row { margin-top: 10px; }
+.row-label { font-size: 13px; letter-spacing: 3px; color: #c9b8e8; margin-bottom: 6px; }
+.row-sub { letter-spacing: 0; font-style: italic; color: #8f7fb0; }
+.hand, .market { display: flex; gap: 10px; flex-wrap: wrap; min-height: 132px; align-items: flex-start; }
+.market-row { background: #20142e; border: 1px solid #4a3566; border-radius: 12px; padding: 10px 12px; }
+.foe-row .hand { min-height: 92px; }
+
+.card { width: 96px; height: 132px; border-radius: 10px; padding: 8px 6px; text-align: center;
+  background: linear-gradient(160deg, #fff8ea, #e8d9b8); color: #241a12; cursor: default;
+  border: 2px solid #8a6d3b; box-shadow: 0 3px 10px rgba(0,0,0,.5); position: relative;
+  transition: transform .12s, box-shadow .12s; user-select: none; }
+.card.pickable { cursor: pointer; }
+.card.pickable:hover, .hand .card:hover { transform: translateY(-6px); box-shadow: 0 8px 18px rgba(0,0,0,.6); }
+.hand .card { cursor: pointer; }
+.card.selected { transform: translateY(-10px); border-color: #ffcf6e; box-shadow: 0 0 0 3px #ffcf6e66, 0 8px 18px rgba(0,0,0,.6); }
+.card-glyph { font-size: 34px; line-height: 1.1; }
+.card-name { font-size: 15px; font-weight: bold; letter-spacing: 1px; margin-top: 4px; }
+.card-potency { font-size: 15px; letter-spacing: 3px; margin-top: 6px; color: #6b4d1f; }
+.card-blurb { font-size: 10px; font-style: italic; color: #7a6a4d; margin-top: 8px; line-height: 1.3; }
+.card.suit-ember { border-color: #c33d1e; } .card.suit-ember .card-glyph { color: #c33d1e; }
+.card.suit-frost { border-color: #1e7f96; } .card.suit-frost .card-glyph { color: #1e7f96; }
+.card.suit-bloom { border-color: #3f7d2c; } .card.suit-bloom .card-glyph { color: #3f7d2c; }
+.card.suit-spark { border-color: #7a3fd1; } .card.suit-spark .card-glyph { color: #7a3fd1; }
+.card.fizzle { background: linear-gradient(160deg, #3a3a3a, #191919); border-color: #ff6b4a; color: #ffb3a0; }
+.card.fizzle .card-glyph { color: #ff6b4a; }
+.card.back { width: 68px; height: 92px; background: linear-gradient(160deg, #5b2d8e, #2c1840);
+  border-color: #c78bff; color: #e8d9ff; cursor: default; padding-top: 18px; }
+.card.back .card-back-glyph { font-size: 26px; }
+.card.back .card-back-word { font-size: 9px; letter-spacing: 2px; margin-top: 6px; }
+.card.small { width: 68px; height: 92px; }
+
+.shelf { display: flex; gap: 8px; flex-wrap: wrap; min-height: 56px; }
+.shelf-empty { color: #8f7fb0; font-style: italic; font-size: 13px; padding: 6px 2px; }
+.flask { background: #241733; border: 1px solid #4a3566; border-radius: 8px; padding: 6px 10px;
+  min-width: 120px; text-align: center; }
+.flask-dots { display: flex; gap: 4px; justify-content: center; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot.suit-ember { background: #ff6b4a; } .dot.suit-frost { background: #5fd4e6; }
+.dot.suit-bloom { background: #7ed957; } .dot.suit-spark { background: #c78bff; }
+.flask-name { font-size: 12px; margin-top: 4px; color: #ffcf6e; }
+.flask-points { font-size: 16px; font-weight: bold; }
+
+.controls { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+button { font-family: inherit; font-size: 15px; font-weight: bold; padding: 10px 18px; border-radius: 9px;
+  border: 1px solid #8a6d3b; background: linear-gradient(180deg, #ffcf6e, #e0a83c); color: #241a12; cursor: pointer; }
+button:hover:not(:disabled) { filter: brightness(1.08); }
+button:disabled { opacity: .4; cursor: default; }
+#overbrew-btn { background: linear-gradient(180deg, #c78bff, #8a4fd1); color: #fff; border-color: #5b2d8e; }
+#end-btn { background: #2c2140; color: #f3ead8; border-color: #4a3566; }
+.hint { font-style: italic; color: #c9b8e8; font-size: 14px; }
+
+aside { margin-top: 18px; border-top: 1px solid #4a3566; padding-top: 8px; display: flex; gap: 28px; flex-wrap: wrap; }
+aside h2 { font-size: 14px; letter-spacing: 2px; color: #c9b8e8; margin: 6px 0; }
+.rules, .log { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.55; color: #d8cdb8; max-width: 560px; }
+.log { list-style: none; padding-left: 0; max-width: 520px; }
+.log li { border-bottom: 1px dashed #3a2b52; padding: 2px 0; }
+.log li:first-child { color: #ffcf6e; }
+body.game-over #end-btn { background: linear-gradient(180deg, #ffcf6e, #e0a83c); color: #241a12; }
